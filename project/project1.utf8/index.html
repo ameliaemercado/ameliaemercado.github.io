@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Amelia Mercado" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../img/favicon.ico">
+    <title>project1</title>
+    <meta name="generator" content="Hugo 0.79.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../../post/">BLOG</a></li>
+        
+        <li><a href="../../projects/">PROJECTS</a></li>
+        
+        <li><a href="../../resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../../project/project1.utf8/">project1</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         January 1, 0001 
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <h2 id="0-introduction">0. Introduction:</h2>
+<p>The two data sets that I chose were Happy and Countries. The Happy data set contains the Happiness Rank of a country as calculated by the World Happiness Report in 2017. Freedom represents the magnitude of freedom recorded by some measure, and Economy GDP is a scaled measure of a countries GDP in the year of 2017. The Countries data set contains the Region that a country is in, its Surface Area in km^2, and Population density as of 2017, which shows the number of inhabitants per square kilometer.</p>
+<p>I acquired these two data sets on an online website called Kaggle, where users can upload data sets. Because I wanted to look at how the physical attributes of a country pertain to it&rsquo;s Happiness Rank, I thought it would be ideal to join the Happy data set with the Countries data set, which contains more geographical/population information. I suspect that countries in more developed regions, such as Europe and the Americas, will rank lower/better for happiness, and thus will also have higher GDPs and Freedom.</p>
+<h2 id="1-tidying-rearranging-widelong">1. Tidying: Rearranging Wide/Long</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">Happy <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Country&#34;</span>, values_from<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Freedom&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#ae81ff">3</span><span style="color:#f92672">:</span><span style="color:#ae81ff">157</span>, names_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Country&#34;</span>, values_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Freedom&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Freedom))  
+</code></pre></div><pre><code>## # A tibble: 155 x 4
+##    Happiness.Rank EconomyGDP Country     Freedom
+##             &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;
+##  1              1       1.62 Norway        0.635
+##  2              2       1.48 Denmark       0.626
+##  3              3       1.48 Iceland       0.627
+##  4              4       1.56 Switzerland   0.620
+##  5              5       1.44 Finland       0.618
+##  6              6       1.50 Netherlands   0.585
+##  7              7       1.48 Canada        0.611
+##  8              8       1.41 New Zealand   0.614
+##  9              9       1.49 Sweden        0.613
+## 10             10       1.48 Australia     0.602
+## # … with 145 more rows
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">Countries <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_wider</span>(names_from<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Region&#34;</span>, values_from<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;SurfaceArea&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#ae81ff">3</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>, names_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Region&#34;</span>, values_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;SurfaceArea&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(SurfaceArea))
+</code></pre></div><pre><code>## # A tibble: 229 x 4
+##    country             PopulationDensity Region    SurfaceArea
+##    &lt;fct&gt;                           &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;
+##  1 Afghanistan                      54.4 Asia              184
+##  2 Albania                         107.  Europe            109
+##  3 Algeria                          17.3 Africa             84
+##  4 American Samoa                  278.  Polynesia          67
+##  5 Andorra                         164.  Europe            154
+##  6 Angola                           23.9 Africa             31
+##  7 Anguilla                        166.  Caribbean         214
+##  8 Antigua and Barbuda             232.  Caribbean         147
+##  9 Argentina                        16.2 Americas          105
+## 10 Armenia                         103.  Asia              111
+## # … with 219 more rows
+</code></pre><p>Both data sets were already tidy, thus I needed to untidy them and re-tidy again. For the Happy data set, I first used pivot wider to create a column for every single <code>Country</code>, and the values for each column corresponded to values for <code>Freedom.</code> I then used pivot longer to place the <code>Country</code> names back into a single column, filtered out NA values, and this brought me back to my tidied data set. I followed the same process for the Countries data set, but used <code>Region</code> instead of <code>Country</code>, and <code>SurfaceArea</code> instead of <code>Freedom.</code></p>
+<h2 id="2-joiningmerging">2. Joining/Merging:</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">joined <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">inner_join</span>(Happy, Countries,by<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(Country<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;country&#34;</span>)) 
+<span style="color:#a6e22e">glimpse</span>(joined)
+</code></pre></div><pre><code>## Rows: 148
+## Columns: 7
+## $ Country           &lt;fct&gt; Norway, Denmark, Iceland, Switzerland, Finland, Net…
+## $ Happiness.Rank    &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
+## $ EconomyGDP        &lt;dbl&gt; 1.616463, 1.482383, 1.480633, 1.564980, 1.443572, 1…
+## $ Freedom           &lt;dbl&gt; 0.6354226, 0.6260067, 0.6271626, 0.6200706, 0.61795…
+## $ Region            &lt;chr&gt; &quot;Europe&quot;, &quot;Europe&quot;, &quot;Europe&quot;, &quot;Europe&quot;, &quot;Europe&quot;, &quot;…
+## $ SurfaceArea       &lt;dbl&gt; 135, 143, 6, 141, 125, 142, 225, 101, 146, 199, 77,…
+## $ PopulationDensity &lt;dbl&gt; 14.5, 135.1, 3.3, 214.5, 18.2, 505.2, 4.0, 17.9, 24…
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">nrow</span>(Happy) 
+</code></pre></div><pre><code>## [1] 155
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">nrow</span>(Countries)   
+</code></pre></div><pre><code>## [1] 229
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">anti_join</span>(Happy, Countries, by<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(Country<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;country&#34;</span>))  
+</code></pre></div><pre><code>##                    Country Happiness.Rank EconomyGDP   Freedom
+## 1 Taiwan Province of China             33 1.43362653 0.3614666
+## 2                   Russia             49 1.28177810 0.3737831
+## 3             North Cyprus             61 1.34691131 0.4712036
+## 4                   Kosovo             78 0.95148438 0.2602879
+## 5      Congo (Brazzaville)            124 0.80896425 0.4350259
+## 6         Congo (Kinshasa)            126 0.09210235 0.2359613
+## 7              Ivory Coast            128 0.60304892 0.4477062
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">anti_join</span>(Countries, Happy, by<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(country<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Country&#34;</span>)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">glimpse</span>()
+</code></pre></div><pre><code>## Rows: 81
+## Columns: 4
+## $ country           &lt;fct&gt; &quot;American Samoa&quot;, &quot;Andorra&quot;, &quot;Anguilla&quot;, &quot;Antigua a…
+## $ Region            &lt;chr&gt; &quot;Polynesia&quot;, &quot;Europe&quot;, &quot;Caribbean&quot;, &quot;Caribbean&quot;, &quot;C…
+## $ SurfaceArea       &lt;dbl&gt; 67, 154, 214, 147, 57, 39, 144, 165, 1, 45, 172, 13…
+## $ PopulationDensity &lt;dbl&gt; 278.2, 163.8, 165.7, 231.8, 584.8, 39.5, 664.5, 122…
+</code></pre><p>I performed an inner join to combine the two data sets. There were 155 observations in the &ldquo;Happy&rdquo; data set, and 229 observations in the &ldquo;Countries&rdquo; data set. There were 6 observations dropped from the Happy data set, which were Taiwan Province of China, North Cyprus, Kosovo, Congo (Brazzaville), Congo (Kinshasa), and Ivory Coast. There were 80 observations dropped from the Countries data set, and most were smaller countries such as Fiji, the Bahamas, Isle of Man, etc. Because so many smaller countries were dropped, this means that the sample is not entirely representative of the world, and thus my findings will not be as generalizable as they could be.</p>
+<p>I chose to perform an inner join to ensure that I would retain the data that had matches for countries across the two data sets; I also did not want any NAs. I believe that in order to achieve these wants, an inner join was necessary.</p>
+<h2 id="3-wrangling">3. Wrangling:</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Mutating a Variable that is dependent on another variable </span>
+joined2 <span style="color:#f92672">&lt;-</span> joined <span style="color:#f92672">%&gt;%</span>  <span style="color:#a6e22e">mutate</span>(KmPerPerson <span style="color:#f92672">=</span> SurfaceArea<span style="color:#f92672">/</span>PopulationDensity) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(KmPerPerson<span style="color:#f92672">=</span><span style="color:#a6e22e">as.numeric</span>(KmPerPerson))
+
+<span style="color:#75715e">#Mean, SD, Min, Max, and Distinct Values (no grouping)</span>
+joined2 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>Happiness.Rank) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize_if</span>(is.numeric, <span style="color:#a6e22e">c</span>(mean<span style="color:#f92672">=</span>mean, sd<span style="color:#f92672">=</span>sd, min<span style="color:#f92672">=</span>min, max<span style="color:#f92672">=</span>max, distinct<span style="color:#f92672">=</span>n_distinct)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">25</span>, names_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Var&#34;</span>, values_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Value&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">separate</span>(Var, into<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Var&#34;</span>, <span style="color:#e6db74">&#34;Stat&#34;</span>))
+</code></pre></div><pre><code>## # A tibble: 25 x 3
+##    Var               Stat    Value
+##    &lt;chr&gt;             &lt;chr&gt;   &lt;dbl&gt;
+##  1 EconomyGDP        mean    0.987
+##  2 Freedom           mean    0.411
+##  3 SurfaceArea       mean  118.   
+##  4 PopulationDensity mean  253.   
+##  5 KmPerPerson       mean    4.06 
+##  6 EconomyGDP        sd      0.420
+##  7 Freedom           sd      0.152
+##  8 SurfaceArea       sd     67.5  
+##  9 PopulationDensity sd    898.   
+## 10 KmPerPerson       sd      9.72 
+## # … with 15 more rows
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Grouped by Top Half Vs. Bottom Half </span>
+joined2 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(TopHalf<span style="color:#f92672">=</span>Happiness.Rank<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">75</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>Region) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(TopHalf) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize_at</span>(<span style="color:#ae81ff">3</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6</span>, <span style="color:#a6e22e">c</span>(mean<span style="color:#f92672">=</span>mean, sd<span style="color:#f92672">=</span>sd, min<span style="color:#f92672">=</span>min, max<span style="color:#f92672">=</span>max)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">17</span>, names_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Var&#34;</span>, values_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Value&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">separate</span>(Var, into<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Var&#34;</span>, <span style="color:#e6db74">&#34;Stat&#34;</span>)) 
+</code></pre></div><pre><code>## Warning: Problem with `mutate()` input `TopHalf`.
+## x longer object length is not a multiple of shorter object length
+## ℹ Input `TopHalf` is `Happiness.Rank == 1:75`.
+</code></pre><pre><code>## Warning in Happiness.Rank == 1:75: longer object length is not a multiple of
+## shorter object length
+</code></pre><pre><code>## # A tibble: 32 x 4
+##    TopHalf Var               Stat    Value
+##    &lt;lgl&gt;   &lt;chr&gt;             &lt;chr&gt;   &lt;dbl&gt;
+##  1 FALSE   EconomyGDP        mean    0.874
+##  2 FALSE   Freedom           mean    0.372
+##  3 FALSE   SurfaceArea       mean  111.   
+##  4 FALSE   PopulationDensity mean  209.   
+##  5 FALSE   EconomyGDP        sd      0.394
+##  6 FALSE   Freedom           sd      0.145
+##  7 FALSE   SurfaceArea       sd     68.3  
+##  8 FALSE   PopulationDensity sd    683.   
+##  9 FALSE   EconomyGDP        min     0    
+## 10 FALSE   Freedom           min     0    
+## # … with 22 more rows
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Grouped by region  </span>
+joined2  <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(Region) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize_if</span>(is.numeric,<span style="color:#a6e22e">c</span>(mean<span style="color:#f92672">=</span>mean, sd<span style="color:#f92672">=</span>sd)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#f92672">-</span>Region) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_wider</span>(names_from<span style="color:#f92672">=</span>Region, values_from<span style="color:#f92672">=</span>value) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">separate</span>(name, into<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;var&#34;</span>, <span style="color:#e6db74">&#34;stat&#34;</span>), sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;_&#34;</span>) 
+</code></pre></div><pre><code>## # A tibble: 12 x 7
+##    var               stat   Africa Americas     Asia Caribbean  Europe
+##    &lt;chr&gt;             &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Happiness.Rank    mean  122.      39.6     78.4      86.2    47.4  
+##  2 EconomyGDP        mean    0.564    1.07     1.06      0.934   1.32 
+##  3 Freedom           mean    0.350    0.471    0.430     0.394   0.423
+##  4 SurfaceArea       mean  104.     108      123.      108.    132.   
+##  5 PopulationDensity mean   95.1     57.9    566.      289.    151.   
+##  6 KmPerPerson       mean    5.76     5.94     3.76      0.403   1.98 
+##  7 Happiness.Rank    sd     25.5     23.4     38.5      44.3    35.4  
+##  8 EconomyGDP        sd      0.342    0.218    0.378     0.418   0.209
+##  9 Freedom           sd      0.144    0.103    0.142     0.245   0.169
+## 10 SurfaceArea       sd     71.1     80.1     67.5      69.4    55.0  
+## 11 PopulationDensity sd    133.      69.2   1576.       76.0   223.   
+## 12 KmPerPerson       sd     12.4     12.2      9.92      0.305   2.06
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Grouped by Top Half and Grouped by Region  </span>
+joined2 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(Happiness.Rank<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">75</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(Region) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize_if</span>(is.numeric, <span style="color:#a6e22e">c</span>(mean<span style="color:#f92672">=</span>mean, sd<span style="color:#f92672">=</span>sd)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">11</span>, names_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Var&#34;</span>, values_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Value&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> Region, values_from<span style="color:#f92672">=</span>Value) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">separate</span>(Var, into<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Var&#34;</span>, <span style="color:#e6db74">&#34;stat&#34;</span>), sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;_&#34;</span>)
+</code></pre></div><pre><code>## Warning in Happiness.Rank == 1:75: longer object length is not a multiple of
+## shorter object length
+</code></pre><pre><code>## # A tibble: 30 x 7
+##    PopulationDensity_… KmPerPerson_sd Var            stat  Americas  Asia Europe
+##                  &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1                46.8           16.7 Happiness.Rank mean   21.1       NA     NA
+##  2                46.8           16.7 EconomyGDP     mean    1.22      NA     NA
+##  3                46.8           16.7 Freedom        mean    0.508     NA     NA
+##  4                46.8           16.7 SurfaceArea    mean  144.        NA     NA
+##  5                46.8           16.7 PopulationDen… mean   50.0       NA     NA
+##  6                46.8           16.7 KmPerPerson    mean    9.45      NA     NA
+##  7                46.8           16.7 Happiness.Rank sd      7.80      NA     NA
+##  8                46.8           16.7 EconomyGDP     sd      0.190     NA     NA
+##  9                46.8           16.7 Freedom        sd      0.0779    NA     NA
+## 10                46.8           16.7 SurfaceArea    sd     79.9       NA     NA
+## # … with 20 more rows
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Correlation Matrix  </span>
+cormat <span style="color:#f92672">&lt;-</span> joined <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>Country, <span style="color:#f92672">-</span>Region) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate_if</span>(is.double, as.numeric)<span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">cor</span>(use<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pair&#34;</span>)  <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">as.data.frame</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">rownames_to_column</span>(<span style="color:#e6db74">&#34;Variable1&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6</span>, names_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Variable2&#34;</span>, values_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;correlation&#34;</span>)   
+<span style="color:#a6e22e">head</span>(cormat)  
+</code></pre></div><pre><code>## # A tibble: 6 x 3
+##   Variable1      Variable2         correlation
+##   &lt;chr&gt;          &lt;chr&gt;                   &lt;dbl&gt;
+## 1 Happiness.Rank Happiness.Rank         1     
+## 2 Happiness.Rank EconomyGDP            -0.811 
+## 3 Happiness.Rank Freedom               -0.563 
+## 4 Happiness.Rank SurfaceArea           -0.135 
+## 5 Happiness.Rank PopulationDensity     -0.0970
+## 6 EconomyGDP     Happiness.Rank        -0.811
+</code></pre><p>Initially, I made a variable called <code>KmPerPerson</code>, which divided <code>SurfaceArea</code> by <code>PopulationDensity</code>. I then worked to find the mean, standard deviation, minimum, maximum, and distinct values of all numeric variables except <code>Happiness.Rank</code>, as I found computing summary statistics for this variable redundant. What stuck out to me at first was initially how spread out <code>SurfaceArea</code> was (2.15e+06 km^2), the fact that <code>Freedom</code> and <code>EconomyGDP</code> had minimums of 0 (honestly, quite sad), and lastly, all numeric variables, except <code>PopulationDensity</code> had values that were all unique from one another (149, which is equivalent to the rows in the joined data set).</p>
+<p>When the countries were grouped by top half and bottom half for <code>Happiness.Rank</code> and while comparing the means for <code>Freedom</code> and <code>EconomyGDP</code>, the means were all lower in the bottom half and more spread out as well. When the countries were grouped by <code>Region</code>, it was evident that Europe had on average, the countries with the lowest/best <code>Happiness.Rank</code> (47), and the Caribbean, on average, had countries with the highest/worst <code>Happiness.Rank</code>(86). Lastly, when filtered for top half and grouped by <code>Region</code>, the most striking result was that there was no summary stats for Africa and the Caribbean, meaning that there were no African or Caribbean countries that ranked in the Top Half for <code>Happiness.Rank</code>. Lastly, I created a correlation matrix, which is visualized in the next section. Some of the highest correlations were <code>Happiness.Rank</code> and <code>EconomyGDP</code> (-0.81) and <code>Happiness.Rank</code> and <code>Freedom</code> (-0.56). Some of the lowest correlations were <code>Happiness.Rank</code> and <code>PopulationDensity</code> (-0.096), <code>Freedom</code> and <code>Surface Area</code> (0.06), and <code>PopulationDensity</code>and <code>Freedom</code> (0.12).</p>
+<h2 id="4-visualizing">4. Visualizing</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(wesanderson)
+<span style="color:#75715e">#Correlation HeatMap</span>
+<span style="color:#a6e22e">ggplot</span>(cormat, <span style="color:#a6e22e">aes</span>(x<span style="color:#f92672">=</span>Variable1, y<span style="color:#f92672">=</span>Variable2, fill<span style="color:#f92672">=</span>correlation)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">geom_tile</span>() <span style="color:#f92672">+</span><span style="color:#a6e22e">scale_x_discrete</span>(labels<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;EconomyGDP&#34;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GDP&#34;</span>, <span style="color:#e6db74">&#34;Happiness.Rank&#34;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Rank&#34;</span>, <span style="color:#e6db74">&#34;PopulationDensity&#34;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;PopDensity&#34;</span>))<span style="color:#f92672">+</span><span style="color:#a6e22e">scale_y_discrete</span>(labels<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;EconomyGDP&#34;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GDP&#34;</span>, <span style="color:#e6db74">&#34;Happiness.Rank&#34;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Rank&#34;</span>, <span style="color:#e6db74">&#34;PopulationDensity&#34;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;PopDensity&#34;</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_fill_gradient</span>(low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#ffffff&#34;</span>, high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#E75480&#34;</span>)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Plot 1 </span>
+<span style="color:#a6e22e">ggplot</span>(joined, <span style="color:#a6e22e">aes</span>(Happiness.Rank, Freedom)) <span style="color:#f92672">+</span><span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(color<span style="color:#f92672">=</span>Region))<span style="color:#f92672">+</span> <span style="color:#a6e22e">theme_linedraw</span>()<span style="color:#f92672">+</span><span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Freedom by Rank, Colored by Region&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;Happiness Rank &#34;</span>)<span style="color:#f92672">+</span><span style="color:#a6e22e">scale_color_manual</span>(values<span style="color:#f92672">=</span><span style="color:#a6e22e">wes_palette</span>(n<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Darjeeling2&#34;</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_x_continuous</span>(breaks<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">25</span>,<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">75</span>,<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">125</span>,<span style="color:#ae81ff">150</span>))
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Plot 2</span>
+<span style="color:#a6e22e">ggplot</span>(joined2, <span style="color:#a6e22e">aes</span>(x<span style="color:#f92672">=</span>Region, y<span style="color:#f92672">=</span>EconomyGDP)) <span style="color:#f92672">+</span><span style="color:#a6e22e">geom_bar</span>(stat<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;summary&#34;</span>, fun<span style="color:#f92672">=</span>mean)<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_jitter</span>(<span style="color:#a6e22e">aes</span>(color<span style="color:#f92672">=</span>Freedom), size<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)<span style="color:#f92672">+</span><span style="color:#a6e22e">scale_color_gradient</span>(low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#66ff00&#34;</span>, high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#ff0000&#34;</span>)<span style="color:#f92672">+</span><span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Mean EconomyGDP by Region, Colored by Freedom&#34;</span>)<span style="color:#f92672">+</span><span style="color:#a6e22e">theme_linedraw</span>()    
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<p>My correlation heat map shows that <code>Happiness.Rank</code> and <code>EconomyGDP</code>, as well as <code>Happiness.Rank</code> and <code>Freedom</code> are strongly negatively correlated. The negative value for these correlations is not surprising, as the numerically lower the rank, the better. And so, lower/better ranks have higher scores of <code>Freedom</code> and measures of <code>EconomyGDP.</code> My heat map also shows that some variables nearly have a correlation of zero with one another, such as <code>PopulationDensity</code> and <code>EconomyGDP</code>, as well as <code>SurfaceArea</code> and <code>EconomyGDP.</code></p>
+<p>Plot 1 is scatter plot of <code>Freedom</code> by <code>Happiness.Rank</code>, and the points are colored by <code>Region.</code> From this plot, it is evident that when looking at the spread of <code>Region</code>, Africa tends to have worse ranks for Happiness, and Europe seems to have  better ranks for Happiness. It also appears that having more freedom is inversely related to <code>Happiness.Rank</code>, i.e. the higher <code>Freedom</code> then the lower the <code>Happiness.Rank</code>. This is line from what was observed from the correlation heat map. <code>Freedom</code> also becomes more spread out as the <code>Happiness.Rank</code> increases.</p>
+<p>Plot 2 is a bar graph of average <code>EconomyGDP</code> by <code>Region</code>, with points that are colored by <code>Freedom.</code> From this plot, it is evident that Europe, on average, has a higher <code>EconomyGDP</code> than other <code>Regions.</code> It is also evident that Africa, on average, has a lower <code>EconomyGDP</code> than other <code>Regions.</code> When looking at <code>Freedom</code>, Africa has the most brightly colored green dots, meaning that this region has many countries with low values for <code>Freedom.</code> Asia, probably has the largest range for <code>Freedom</code> values, as the dots appear to be scattered across almost the entire graph.</p>
+<h2 id="5-dimensionality-reduction">5. Dimensionality Reduction</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(cluster)
+<span style="color:#75715e">#Calculating Gower Dissimilarities </span>
+data <span style="color:#f92672">&lt;-</span> joined2 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate_if</span>(is.character, as.factor) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate_if</span>(is.double, as.numeric) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">column_to_rownames</span>(<span style="color:#e6db74">&#34;Country&#34;</span>)
+gower <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">daisy</span>(data, metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;gower&#34;</span>)
+ 
+<span style="color:#75715e">#Finding ideal cluster number </span>
+sil_width<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">vector</span>()
+<span style="color:#a6e22e">for</span>(i in <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>){  
+  pam_fit <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">pam</span>(gower, k <span style="color:#f92672">=</span> i)  
+  sil_width[i] <span style="color:#f92672">&lt;-</span> pam_fit<span style="color:#f92672">$</span>silinfo<span style="color:#f92672">$</span>avg.width  
+}
+<span style="color:#a6e22e">ggplot</span>()<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_line</span>(<span style="color:#a6e22e">aes</span>(x<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>,y<span style="color:#f92672">=</span>sil_width))<span style="color:#f92672">+</span><span style="color:#a6e22e">scale_x_continuous</span>(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;k&#34;</span>,breaks<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>)  
+</code></pre></div><pre><code>## Warning: Removed 1 row(s) containing missing values (geom_path).
+</code></pre><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Performing clustering with PAM</span>
+pam2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">pam</span>(gower, k<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, diss<span style="color:#f92672">=</span>T)  
+data2 <span style="color:#f92672">&lt;-</span> joined <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(cluster<span style="color:#f92672">=</span>pam2<span style="color:#f92672">$</span>clustering)
+pam2<span style="color:#f92672">$</span>silinfo<span style="color:#f92672">$</span>avg.width
+</code></pre></div><pre><code>## [1] 0.4341644
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Most Similar and Most Different </span>
+gower <span style="color:#f92672">%&gt;%</span> as.matrix <span style="color:#f92672">%&gt;%</span> as.data.frame <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">rownames_to_column</span>(<span style="color:#e6db74">&#34;Country&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#ae81ff">-1</span>,values_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Distance&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(Country<span style="color:#f92672">!=</span>name) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(Distance<span style="color:#f92672">%in%</span><span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">min</span>(Distance),<span style="color:#a6e22e">max</span>(Distance))) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">distinct</span>(Distance,.keep_all <span style="color:#f92672">=</span> T) 
+</code></pre></div><pre><code>## # A tibble: 2 x 3
+##   Country name        Distance
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 Denmark Switzerland   0.0130
+## 2 Canada  Sudan         0.714
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#What is the most representative? </span>
+data2 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">slice</span>(pam2<span style="color:#f92672">$</span>id.med)  
+</code></pre></div><pre><code>##        Country Happiness.Rank EconomyGDP   Freedom   Region SurfaceArea
+## 1       Poland             46  1.2917879 0.5203421   Europe         120
+## 2      Ecuador             44  1.0008204 0.4551982 Americas          92
+## 3    Indonesia             81  0.9955386 0.4433235     Asia          63
+## 4 Burkina Faso            134  0.3502277 0.3243679   Africa         103
+##   PopulationDensity cluster
+## 1             124.6       1
+## 2              66.9       2
+## 3             145.7       3
+## 4              70.2       4
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#What do the clusters look like?</span>
+data2 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(cluster, Region) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(cluster, Region) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(n<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(proportion<span style="color:#f92672">=</span>n<span style="color:#f92672">/</span><span style="color:#a6e22e">sum</span>(n, na.rm<span style="color:#f92672">=</span>T)) 
+</code></pre></div><pre><code>## `summarise()` regrouping output by 'cluster' (override with `.groups` argument)
+</code></pre><pre><code>## # A tibble: 9 x 4
+## # Groups:   cluster [4]
+##   cluster Region        n proportion
+##     &lt;int&gt; &lt;chr&gt;     &lt;int&gt;      &lt;dbl&gt;
+## 1       1 Caribbean     2     0.05  
+## 2       1 Europe       38     0.95  
+## 3       2 Americas     20     1     
+## 4       3 Africa        2     0.0426
+## 5       3 Asia         44     0.936 
+## 6       3 Caribbean     1     0.0213
+## 7       4 Africa       39     0.951 
+## 8       4 Asia          1     0.0244
+## 9       4 Caribbean     1     0.0244
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data2 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(cluster) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize_if</span>(is.numeric,.funs<span style="color:#f92672">=</span><span style="color:#a6e22e">list</span>(<span style="color:#e6db74">&#34;mean&#34;</span><span style="color:#f92672">=</span>mean, <span style="color:#e6db74">&#34;median&#34;</span><span style="color:#f92672">=</span>median, <span style="color:#e6db74">&#34;sd&#34;</span><span style="color:#f92672">=</span>sd), na.rm<span style="color:#f92672">=</span>T) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#a6e22e">contains</span>(<span style="color:#e6db74">&#34;_&#34;</span>)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">separate</span>(name, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;_&#34;</span>, into<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;variable&#34;</span>, <span style="color:#e6db74">&#34;stat&#34;</span>)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_wider</span>(names_from<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;variable&#34;</span>, values_from<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;value&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">arrange</span>(stat)
+</code></pre></div><pre><code>## # A tibble: 12 x 7
+##    cluster stat   Happiness.Rank EconomyGDP Freedom SurfaceArea PopulationDensi…
+##      &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt;            &lt;dbl&gt;
+##  1       1 mean             48.2      1.31    0.428       133.             156. 
+##  2       2 mean             39.6      1.07    0.471       108               57.9
+##  3       3 mean             76.5      1.08    0.440       117.             560. 
+##  4       4 mean            126.       0.527   0.330       108.              90.9
+##  5       1 median           47        1.33    0.485       142.             105. 
+##  6       2 median           33        1.09    0.475        85.5             35.9
+##  7       3 median           76        1.08    0.466       122              119. 
+##  8       4 median          133        0.438   0.364       103               51.8
+##  9       1 sd               35.1      0.207   0.167        53.9            218. 
+## 10       2 sd               23.4      0.218   0.103        80.1             69.2
+## 11       3 sd               36.6      0.358   0.131        68.5           1542. 
+## 12       4 sd               22.3      0.317   0.154        71.4            113.
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Visualization:  </span>
+<span style="color:#a6e22e">library</span>(GGally)   
+</code></pre></div><pre><code>## Registered S3 method overwritten by 'GGally':
+##   method from   
+##   +.gg   ggplot2
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data3 <span style="color:#f92672">&lt;-</span> data2 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">relocate</span>(Region, .before<span style="color:#f92672">=</span>Happiness.Rank)
+<span style="color:#a6e22e">ggpairs</span>(data3,columns<span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">:</span><span style="color:#ae81ff">7</span>,<span style="color:#a6e22e">aes</span>(color<span style="color:#f92672">=</span><span style="color:#a6e22e">as.factor</span>(cluster)))
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<p>Clustering:</p>
+<p>Because I wanted to include a categorical variable in my clustering, I used gower dissimilarities to perform clustering with PAM. First, I changed my categorical variable to a factor, and then also ensured that my numeric variables were indeed numeric in R. After this, I then calculated gower dissimilarities for my data.  Next, I worked to decide the ideal amount of clusters that would maximize my average silhouette width. Maximizing average silhouette width is important because it means that the clusters are more cohesive and more separate from one another. My max average silhouette width was 0.527, which fell at k=4. An average silhouette width of 0.527 indicates that a reasonable structure has been found. Thus, my ideal amount of clusters was 4. I then performed clustering with PAM, with k equaling four, and saved this as pam2.</p>
+<p>Analysis:</p>
+<p>To analyze my clusters, I first found those that were the most similar and most different. The most similar countries in my data set are Denmark and Iceland, and the least similar are Canada and Burundi. The later is logical, as Canada is a developed country and Burundi an extremely poor, underdeveloped country. I also found what countries were most representative of each cluster; I did this by looking at the final medoids, and because I used PAM, each medoid is an actual data point. Each medoid represented a different region, which I thought indicated that my clusters were pretty separate from one another. To determine what the clusters looked like, I found proportions of each cluster assignment by region. Cluster 2 was purely just comprised of the Americas while clusters 1,3, and 4 all had some tiny proportion of the Caribbean. I also calculated summary statistics, which produced a lot of information about each cluster. Most interestingly, cluster 2 had on average, the lowest/best ranks for Happiness, the lowest median, and was less spread out than the other clusters.</p>
+<p>Lastly, I created a visualization to show all pairwise combinations for the four numeric variables. Looking at this visualization, <code>EconomyGDP</code> and <code>Happiness.Rank</code> have the highest correlation with one another, which is consistent with the correlation heat map. <code>SurfaceArea</code> and <code>Freedom</code> have the lowest correlation, which is also consistent with the correlation heatmap.</p>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+   <hr>  <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> 
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../../js/docs.min.js"></script>
+<script src="../../js/main.js"></script>
+
+<script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>
