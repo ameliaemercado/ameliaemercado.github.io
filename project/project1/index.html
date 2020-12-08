@@ -72,6 +72,18 @@
               
 
 
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ dplyr   1.0.1
+## ✓ tidyr   1.1.1     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>save.image(&quot;myWorkSpace.RData&quot;)
+Happy &lt;- read.csv(&quot;Happy.csv&quot;) 
+Countries &lt;- read.csv(&quot;Countries.csv&quot;)  %&gt;% mutate(Region=recode(Region, CentralAsia=&quot;Asia&quot;, EasternAsia=&quot;Asia&quot;, EasternAfrica=&quot;Africa&quot;, NorthernAfrica=&quot;Africa&quot;, EasternEurope=&quot;Europe&quot;, NorthernEurope=&quot;Europe&quot;, MiddleAfrica=&quot;Africa&quot;, &quot;South-easternAsia&quot; = &quot;Asia&quot;, SouthernAfrica=&quot;Africa&quot;, WesternAfrica=&quot;Africa&quot;, WesternAsia=&quot;Asia&quot;, WesternEurope=&quot;Europe&quot;, SouthernEurope=&quot;Europe&quot;, SouthernAsia=&quot;Asia&quot;, Oceania=&quot;Asia&quot;, NorthernAmerica=&quot;Americas&quot;, SouthAmerica=&quot;Americas&quot;, CentralAmerica=&quot;Americas&quot;)) %&gt;% mutate(SurfaceArea=as.numeric(`Surface.area..km2.`), PopulationDensity = as.numeric(`Population.density..per.km2..2017.`), Region = as.character(Region))%&gt;% select(-`Surface.area..km2.`, -`Population.density..per.km2..2017.`)   </code></pre>
 <div id="introduction" class="section level2">
 <h2>0. Introduction:</h2>
 <p>The two data sets that I chose were Happy and Countries. The Happy data set contains the Happiness Rank of a country as calculated by the World Happiness Report in 2017. Freedom represents the magnitude of freedom recorded by some measure, and Economy GDP is a scaled measure of a countries GDP in the year of 2017. The Countries data set contains the Region that a country is in, its Surface Area in km^2, and Population density as of 2017, which shows the number of inhabitants per square kilometer.</p>
@@ -244,13 +256,13 @@ head(cormat)  </code></pre>
 <pre class="r"><code>library(wesanderson)
 #Correlation HeatMap
 ggplot(cormat, aes(x=Variable1, y=Variable2, fill=correlation)) + geom_tile() +scale_x_discrete(labels=c(&quot;EconomyGDP&quot;=&quot;GDP&quot;, &quot;Happiness.Rank&quot;=&quot;Rank&quot;, &quot;PopulationDensity&quot;=&quot;PopDensity&quot;))+scale_y_discrete(labels=c(&quot;EconomyGDP&quot;=&quot;GDP&quot;, &quot;Happiness.Rank&quot;=&quot;Rank&quot;, &quot;PopulationDensity&quot;=&quot;PopDensity&quot;)) + scale_fill_gradient(low = &quot;#ffffff&quot;, high = &quot;#E75480&quot;)</code></pre>
-<p><img src="../../project/project1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>#Plot 1 
 ggplot(joined, aes(Happiness.Rank, Freedom)) +geom_point(aes(color=Region))+ theme_linedraw()+ggtitle(&quot;Freedom by Rank, Colored by Region&quot;) + xlab(&quot;Happiness Rank &quot;)+scale_color_manual(values=wes_palette(n=5, name=&quot;Darjeeling2&quot;)) + scale_x_continuous(breaks=c(0,25,50,75,100,125,150))</code></pre>
-<p><img src="../../project/project1_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
 <pre class="r"><code>#Plot 2
 ggplot(joined2, aes(x=Region, y=EconomyGDP)) +geom_bar(stat=&quot;summary&quot;, fun=mean)+geom_jitter(aes(color=Freedom), size=2)+scale_color_gradient(low = &quot;#66ff00&quot;, high = &quot;#ff0000&quot;)+ggtitle(&quot;Mean EconomyGDP by Region, Colored by Freedom&quot;)+theme_linedraw()    </code></pre>
-<p><img src="../../project/project1_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
 <p>My correlation heat map shows that <code>Happiness.Rank</code> and <code>EconomyGDP</code>, as well as <code>Happiness.Rank</code> and <code>Freedom</code> are strongly negatively correlated. The negative value for these correlations is not surprising, as the numerically lower the rank, the better. And so, lower/better ranks have higher scores of <code>Freedom</code> and measures of <code>EconomyGDP.</code> My heat map also shows that some variables nearly have a correlation of zero with one another, such as <code>PopulationDensity</code> and <code>EconomyGDP</code>, as well as <code>SurfaceArea</code> and <code>EconomyGDP.</code></p>
 <p>Plot 1 is scatter plot of <code>Freedom</code> by <code>Happiness.Rank</code>, and the points are colored by <code>Region.</code> From this plot, it is evident that when looking at the spread of <code>Region</code>, Africa tends to have worse ranks for Happiness, and Europe seems to have better ranks for Happiness. It also appears that having more freedom is inversely related to <code>Happiness.Rank</code>, i.e. the higher <code>Freedom</code> then the lower the <code>Happiness.Rank</code>. This is line from what was observed from the correlation heat map. <code>Freedom</code> also becomes more spread out as the <code>Happiness.Rank</code> increases.</p>
 <p>Plot 2 is a bar graph of average <code>EconomyGDP</code> by <code>Region</code>, with points that are colored by <code>Freedom.</code> From this plot, it is evident that Europe, on average, has a higher <code>EconomyGDP</code> than other <code>Regions.</code> It is also evident that Africa, on average, has a lower <code>EconomyGDP</code> than other <code>Regions.</code> When looking at <code>Freedom</code>, Africa has the most brightly colored green dots, meaning that this region has many countries with low values for <code>Freedom.</code> Asia, probably has the largest range for <code>Freedom</code> values, as the dots appear to be scattered across almost the entire graph.</p>
@@ -270,7 +282,7 @@ for(i in 2:10){
 }
 ggplot()+geom_line(aes(x=1:10,y=sil_width))+scale_x_continuous(name=&quot;k&quot;,breaks=1:10)  </code></pre>
 <pre><code>## Warning: Removed 1 row(s) containing missing values (geom_path).</code></pre>
-<p><img src="../../project/project1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="r"><code>#Performing clustering with PAM
 pam2 &lt;- pam(gower, k=4, diss=T)  
 data2 &lt;- joined %&gt;% mutate(cluster=pam2$clustering)
@@ -336,7 +348,7 @@ library(GGally)   </code></pre>
 ##   +.gg   ggplot2</code></pre>
 <pre class="r"><code>data3 &lt;- data2 %&gt;% relocate(Region, .before=Happiness.Rank)
 ggpairs(data3,columns= 3:7,aes(color=as.factor(cluster)))</code></pre>
-<p><img src="../../project/project1_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
 <p>Clustering:</p>
 <p>Because I wanted to include a categorical variable in my clustering, I used gower dissimilarities to perform clustering with PAM. First, I changed my categorical variable to a factor, and then also ensured that my numeric variables were indeed numeric in R. After this, I then calculated gower dissimilarities for my data. Next, I worked to decide the ideal amount of clusters that would maximize my average silhouette width. Maximizing average silhouette width is important because it means that the clusters are more cohesive and more separate from one another. My max average silhouette width was 0.527, which fell at k=4. An average silhouette width of 0.527 indicates that a reasonable structure has been found. Thus, my ideal amount of clusters was 4. I then performed clustering with PAM, with k equaling four, and saved this as pam2.</p>
 <p>Analysis:</p>

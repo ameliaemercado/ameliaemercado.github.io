@@ -22,25 +22,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/project/project1/</guid>
-      <description>0. Introduction: The two data sets that I chose were Happy and Countries. The Happy data set contains the Happiness Rank of a country as calculated by the World Happiness Report in 2017. Freedom represents the magnitude of freedom recorded by some measure, and Economy GDP is a scaled measure of a countries GDP in the year of 2017. The Countries data set contains the Region that a country is in, its Surface Area in km^2, and Population density as of 2017, which shows the number of inhabitants per square kilometer.</description>
-    </item>
-    
-    <item>
-      <title>project1</title>
-      <link>/project/project1.knit/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/project1.knit/</guid>
-      <description>0. Introduction: The two data sets that I chose were Happy and Countries. The Happy data set contains the Happiness Rank of a country as calculated by the World Happiness Report in 2017. Freedom represents the magnitude of freedom recorded by some measure, and Economy GDP is a scaled measure of a countries GDP in the year of 2017. The Countries data set contains the Region that a country is in, its Surface Area in km^2, and Population density as of 2017, which shows the number of inhabitants per square kilometer.</description>
-    </item>
-    
-    <item>
-      <title>project1</title>
-      <link>/project/project1.utf8/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/project1.utf8/</guid>
-      <description>0. Introduction: The two data sets that I chose were Happy and Countries. The Happy data set contains the Happiness Rank of a country as calculated by the World Happiness Report in 2017. Freedom represents the magnitude of freedom recorded by some measure, and Economy GDP is a scaled measure of a countries GDP in the year of 2017. The Countries data set contains the Region that a country is in, its Surface Area in km^2, and Population density as of 2017, which shows the number of inhabitants per square kilometer.</description>
+      <description>library(tidyverse) ## ── Attaching packages ─── tidyverse 1.3.0 ── ## ✓ ggplot2 3.3.2 ✓ purrr 0.3.4 ## ✓ tibble 3.0.3 ✓ dplyr 1.0.1 ## ✓ tidyr 1.1.1 ✓ stringr 1.4.0 ## ✓ readr 1.3.1 ✓ forcats 0.5.0 ## ── Conflicts ────── tidyverse_conflicts() ── ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() save.image(&amp;quot;myWorkSpace.RData&amp;quot;) Happy &amp;lt;- read.csv(&amp;quot;Happy.csv&amp;quot;) Countries &amp;lt;- read.csv(&amp;quot;Countries.csv&amp;quot;) %&amp;gt;% mutate(Region=recode(Region, CentralAsia=&amp;quot;Asia&amp;quot;, EasternAsia=&amp;quot;Asia&amp;quot;, EasternAfrica=&amp;quot;Africa&amp;quot;, NorthernAfrica=&amp;quot;Africa&amp;quot;, EasternEurope=&amp;quot;Europe&amp;quot;, NorthernEurope=&amp;quot;Europe&amp;quot;, MiddleAfrica=&amp;quot;Africa&amp;quot;, &amp;quot;South-easternAsia&amp;quot; = &amp;quot;Asia&amp;quot;, SouthernAfrica=&amp;quot;Africa&amp;quot;, WesternAfrica=&amp;quot;Africa&amp;quot;, WesternAsia=&amp;quot;Asia&amp;quot;, WesternEurope=&amp;quot;Europe&amp;quot;, SouthernEurope=&amp;quot;Europe&amp;quot;, SouthernAsia=&amp;quot;Asia&amp;quot;, Oceania=&amp;quot;Asia&amp;quot;, NorthernAmerica=&amp;quot;Americas&amp;quot;, SouthAmerica=&amp;quot;Americas&amp;quot;, CentralAmerica=&amp;quot;Americas&amp;quot;)) %&amp;gt;% mutate(SurfaceArea=as.</description>
     </item>
     
     <item>
@@ -49,7 +31,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/project/project2/</guid>
-      <description>Importing Data + Loading libraries/functions library(tidyverse); library(glmnet); library(rstatix); library(sandwich); library(lmtest);library(plotROC); library(interactions) ## ── Attaching packages ──────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.3.2 ✓ purrr 0.3.4 ## ✓ tibble 3.0.3 ✓ dplyr 1.0.1 ## ✓ tidyr 1.1.1 ✓ stringr 1.4.0 ## ✓ readr 1.3.1 ✓ forcats 0.5.0 ## ── Conflicts ─────────────────────────────── tidyverse_conflicts() ── ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() ## Loading required package: Matrix ## ## Attaching package: &amp;#39;Matrix&amp;#39; ## The following objects are masked from &amp;#39;package:tidyr&amp;#39;: ## ## expand, pack, unpack ## Loaded glmnet 4.</description>
+      <description>Importing Data + Loading libraries/functions library(tidyverse); library(glmnet); library(rstatix); library(sandwich); library(lmtest);library(plotROC); library(interactions) ## ── Attaching packages ─── tidyverse 1.3.0 ── ## ✓ ggplot2 3.3.2 ✓ purrr 0.3.4 ## ✓ tibble 3.0.3 ✓ dplyr 1.0.1 ## ✓ tidyr 1.1.1 ✓ stringr 1.4.0 ## ✓ readr 1.3.1 ✓ forcats 0.5.0 ## ── Conflicts ────── tidyverse_conflicts() ── ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() ## Loading required package: Matrix ## ## Attaching package: &amp;#39;Matrix&amp;#39; ## The following objects are masked from &amp;#39;package:tidyr&amp;#39;: ## ## expand, pack, unpack ## Loaded glmnet 4.</description>
     </item>
     
     <item>

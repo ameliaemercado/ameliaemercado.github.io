@@ -4,7 +4,10 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE) 
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
 library(tidyverse)
 save.image("myWorkSpace.RData")
 Happy <- read.csv("Happy.csv") 
