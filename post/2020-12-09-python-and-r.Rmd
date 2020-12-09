@@ -1,0 +1,47 @@
+---
+title: Python and R
+author: ameliamercado
+date: '2020-12-09'
+slug: python-and-r
+categories: []
+tags: []
+description: ''
+---
+ 
+## In this blog post, I am going to be sharing some neat things you can do with python. 
+## 1. You can create a list or a string: 
+```{python}
+list1 = "5, 6, abc, 10, amelia, cool" 
+print(list1)
+string1="Happy Birthday to my friend Chloe"
+print(string1)
+```
+
+## 2. You can use regex to find certain things in a string: 
+```{python}
+import re
+string2= "amelia was born in Gulfport, MS, on Jan 20, 2000."
+re.findall(r"[0-9]+", string2) #finds numbers 
+re.findall(r"\w{6}\s", string2) #find my name (6 letters with a white space) 
+```
+
+## 3. You can import datasets and play around with the data: 
+```{python}
+import pandas as pd 
+heart=pd.read_csv("heart.csv")
+heart.head() 
+
+import numpy as np
+heart.trestbps.min() #find min of chol variable 
+heart.trestbps.max() #find max of chol variable  
+median=heart.chol.median() 
+heart[heart.chol>median].trestbps.mean() #find mean of resting bp when cholesterol is above the median 
+heart[heart.chol<median].trestbps.mean() #find mean of resting bp when cholesterol is below the median 
+```
+##. 
+```{r}
+
+
+
+
+```
