@@ -47,5 +47,6 @@ heart[heart.chol<median].trestbps.mean() #find mean of resting bp when cholester
 
 ```
 
+## I am no master at python, but I have to say, I stay loyal to R 😌
 ![](/post/2020-12-09-python-and-r_files/i4x3ofuvr0v01.png)
 
