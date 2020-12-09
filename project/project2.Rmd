@@ -1,5 +1,5 @@
 ---
-title: 'project2'
+title: 'Project 2'
 output: html_document
 ---
 
