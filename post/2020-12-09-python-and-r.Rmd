@@ -7,7 +7,7 @@ categories: []
 tags: []
 description: ''
 ---
- 
+
 ## In this blog post, I am going to be sharing some neat things you can do with python. 
 ## 1. You can create a list or a string: 
 ```{python}
@@ -38,10 +38,13 @@ median=heart.chol.median()
 heart[heart.chol>median].trestbps.mean() #find mean of resting bp when cholesterol is above the median 
 heart[heart.chol<median].trestbps.mean() #find mean of resting bp when cholesterol is below the median 
 ```
-##. 
+
+
 ```{r}
 
 
 
 
 ```
+
+![](/post/2020-12-09-python-and-r_files/Screen Shot 2020-12-09 at 2.54.24 PM.jpg)
