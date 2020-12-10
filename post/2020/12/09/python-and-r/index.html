@@ -86,6 +86,7 @@ print(string1)</code></pre>
 </div>
 <div id="you-can-use-regex-to-find-certain-things-in-a-string" class="section level2">
 <h2>2. You can use regex to find certain things in a string:</h2>
+<p>Here, I am having regex find the numbers and also my name.</p>
 <pre class="python"><code>import re
 string2= &quot;amelia was born in Gulfport, MS, on Jan 20, 2000.&quot;
 re.findall(r&quot;[0-9]+&quot;, string2) #finds numbers </code></pre>
@@ -95,6 +96,7 @@ re.findall(r&quot;[0-9]+&quot;, string2) #finds numbers </code></pre>
 </div>
 <div id="you-can-import-datasets-and-play-around-with-the-data" class="section level2">
 <h2>3. You can import datasets and play around with the data:</h2>
+<p>Here, I am showing how to import datasets in python and also how to find certain descriptives such as median, min, max, and mean.</p>
 <pre class="python"><code>import pandas as pd 
 heart=pd.read_csv(&quot;heart.csv&quot;)
 heart.head() </code></pre>
@@ -121,6 +123,32 @@ heart[heart.chol&gt;median].trestbps.mean() #find mean of resting bp when choles
 <pre><code>## 133.92052980132451</code></pre>
 <pre class="python"><code>heart[heart.chol&lt;median].trestbps.mean() #find mean of resting bp when cholesterol is below the median </code></pre>
 <pre><code>## 129.49324324324326</code></pre>
+</div>
+<div id="you-can-also-make-python-and-r-talk-to-one-another" class="section level2">
+<h2>4. You can also make python and R talk to one another!:</h2>
+<p>Here is an R code chunk, where I load the dataset called <code>mpg</code>.</p>
+<pre class="r"><code>library(reticulate) 
+library(ggplot2)
+m &lt;- mpg  
+head(mpg)</code></pre>
+<pre><code>## # A tibble: 6 x 11
+##   manufacturer model displ  year   cyl trans      drv     cty   hwy fl    class 
+##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 audi         a4      1.8  1999     4 auto(l5)   f        18    29 p     compa…
+## 2 audi         a4      1.8  1999     4 manual(m5) f        21    29 p     compa…
+## 3 audi         a4      2    2008     4 manual(m6) f        20    31 p     compa…
+## 4 audi         a4      2    2008     4 auto(av)   f        21    30 p     compa…
+## 5 audi         a4      2.8  1999     6 auto(l5)   f        16    26 p     compa…
+## 6 audi         a4      2.8  1999     6 manual(m5) f        18    26 p     compa…</code></pre>
+<p>Here is a python code chunk, where I load the dataset that I called <code>m</code> in R.</p>
+<pre class="python"><code>r.m.model.head() </code></pre>
+<pre><code>## 0    a4
+## 1    a4
+## 2    a4
+## 3    a4
+## 4    a4
+## Name: model, dtype: object</code></pre>
+<p>You can go back and forth between R and python, just make sure to put <code>py</code> before something in R if you ran it in python, and <code>r</code> before something in python if you ran it in R!</p>
 </div>
 <div id="i-am-no-master-at-python-but-i-have-to-say-i-stay-loyal-to-r" class="section level2">
 <h2>I am no master at python, but I have to say, I stay loyal to R 😌</h2>
